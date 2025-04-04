@@ -8,14 +8,34 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run test # REQUIRED for CI-2 Lab
+      - run: npm run test #CI-2 Lab Requirement
       - run: npm run build
+
+  deploy:
+    machine: true # Use full VM for SSH access
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:DPuRWg3POnV1IJuxaXWlso/EsVaon10J5l9CU5E3RJ0"
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no ubuntu@44.202.31.30 << 'EOF'
+              cd ClothesShop
+              git pull origin main
+              docker build -t clothesshop-app .
+              docker rm -f clothesshop-container || true
+              docker run -d -p 8080:80 --name clothesshop-container clothesshop-app
+            EOF
 
 workflows:
   version: 2
-  build_and_test:
+  build_test_deploy:
     jobs:
-      - build:
+      - build
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: main
