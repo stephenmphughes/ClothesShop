@@ -44,7 +44,12 @@ function App() {
       <Navbar />
 
       <div className="container py-4">
-        <h1 className="mb-4 text-center">Clothing Store Inventory</h1>
+        <h1 className="mb-4 text-center"> Stock Check</h1>
+        <div className="text-center my-4">
+  <img src="/images/addidev.svg" alt="AddiDev Logo" style={{ height: '140px' }} />
+</div>
+
+
 
         <ProductForm
           productToEdit={productToEdit}
