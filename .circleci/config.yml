@@ -20,7 +20,9 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@44.202.31.30 << 'EOF'
+
+            ssh -o StrictHostKeyChecking=no ubuntu@44.202.31.30 \<< 'EOF'
+
               cd ClothesShop
               git pull origin main
               docker build -t clothesshop-app .
