@@ -8,7 +8,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run test #CI-2 Lab Requirement
+      - run: npm run test # CI-2 Lab Requirement
       - run: npm run build
 
   deploy:
@@ -20,18 +20,13 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-
-            ssh -o StrictHostKeyChecking=no ubuntu@44.202.31.30 \<< 'EOF'
-              cd ClothesShop
-              git pull origin main
-              docker build -t clothesshop-app .
-              docker rm -f clothesshop-container || true
-              docker run -d -p 8080:80 --name clothesshop-container clothesshop-app
+            ssh -o StrictHostKeyChecking=no deployer@44.202.31.30 \<< 'EOF'
+              bash ~/ClothesShop/deploy.sh
             EOF
 
 workflows:
   version: 2
-  build_test_deploy:
+  build_and_deploy:
     jobs:
       - build
       - deploy:
