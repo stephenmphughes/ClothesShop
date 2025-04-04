@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Build React App (with Keep-Alive)
           command: |
-            while true; do echo "building..."; sleep 60; done &
+            while true; do echo "🌀 building..."; sleep 60; done &
             KEEP_ALIVE_PID=$!
             npm run build
             kill $KEEP_ALIVE_PID
@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh -o StrictHostKeyChecking=no deployer@44.202.31.30 << 'EOF'
+            ssh -o StrictHostKeyChecking=no deployer@44.202.31.30 \<< 'EOF'
               bash ~/ClothesShop/deploy.sh
             EOF
 
