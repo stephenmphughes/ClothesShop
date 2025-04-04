@@ -8,6 +8,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
+      - run: npm run test # REQUIRED for CI-2 Lab
       - run: npm run build
 
 workflows:
