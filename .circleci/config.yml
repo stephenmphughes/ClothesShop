@@ -7,9 +7,20 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
+
       - run: npm install
-      - run: npm run test # CI-2 Lab Requirement
-      - run: npm run build
+
+      - run:
+          name: Run Tests
+          command: npm run test # CI-2 Lab Requirement
+
+      - run:
+          name: Build React App (with Keep-Alive)
+          command: |
+            while true; do echo "building..."; sleep 60; done &
+            KEEP_ALIVE_PID=$!
+            npm run build
+            kill $KEEP_ALIVE_PID
 
   deploy:
     machine: true # Use full VM for SSH access
@@ -17,10 +28,11 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:DPuRWg3POnV1IJuxaXWlso/EsVaon10J5l9CU5E3RJ0"
+
       - run:
           name: Deploy to EC2
           command: |
-            ssh -o StrictHostKeyChecking=no deployer@44.202.31.30 \<< 'EOF'
+            ssh -o StrictHostKeyChecking=no deployer@44.202.31.30 << 'EOF'
               bash ~/ClothesShop/deploy.sh
             EOF
 
