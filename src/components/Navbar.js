@@ -7,9 +7,9 @@ const Navbar = () => {
     <nav className="navbar-container">
       <div className="navbar-brand">ADDIDEV</div>
       <ul className="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="/">Continous</a></li>
+        <li><a href="#products">Integration</a></li>
+        <li><a href="#about">Development</a></li>
       </ul>
     </nav>
   );
