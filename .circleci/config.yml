@@ -32,9 +32,10 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@34.229.12.242 << 'EOF'
-              bash ~/ClothesShop/deploy.sh
-            EOF
+            ssh -o StrictHostKeyChecking=no ubuntu@34.229.12.242 <<\EOF
+  bash ~/ClothesShop/deploy.sh
+EOF
+
 
 workflows:
   version: 2
