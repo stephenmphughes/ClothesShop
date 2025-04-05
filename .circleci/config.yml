@@ -22,18 +22,17 @@ jobs:
             npm run build
             kill $KEEP_ALIVE_PID
 
-  deploy:
-    machine: true # Use full VM for SSH access
+    deploy:
+    machine: true
     steps:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:DPuRWg3POnV1IJuxaXWlso/EsVaon10J5l9CU5E3RJ0"
-
       - run:
           name: Deploy to EC2
           command: |
             ssh -o StrictHostKeyChecking=no ubuntu@34.229.12.242 <<\EOF
-  bash ~/ClothesShop/deploy.sh
+              bash ~/ClothesShop/deploy.sh
 EOF
 
 
