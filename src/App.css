@@ -8,6 +8,11 @@ h1, h2, h3, h4 {
   font-family: 'Playfair Display', serif;
 }
 
+/* Override h1 only to use Futura */
+h1 {
+  font-family: 'Futura', sans-serif;
+}
+
 .btn-primary {
   background-color: #000;
   border: none;
@@ -20,6 +25,7 @@ h1, h2, h3, h4 {
 .btn-primary:hover {
   background-color: #444;
 }
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap');
 
 .navbar-container {
@@ -35,8 +41,9 @@ h1, h2, h3, h4 {
   z-index: 1000;
 }
 
+/* Only navbar heading/brand uses Futura */
 .navbar-brand {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Futura', sans-serif;
   font-size: 24px;
   font-weight: 600;
   color: #000;
@@ -61,6 +68,7 @@ h1, h2, h3, h4 {
 .navbar-links li a:hover {
   color: #888;
 }
+
 @media (max-width: 768px) {
   .navbar-container {
     flex-direction: column;
