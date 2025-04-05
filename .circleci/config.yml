@@ -12,17 +12,17 @@ jobs:
 
       - run:
           name: Run Tests
-          command: npm run test # CI-2 Lab Requirement
+          command: npm run test
 
       - run:
-          name: Build React App (with Keep-Alive)
+          name: Build React App (Keep-Alive for CI timeout)
           command: |
             while true; do echo "🌀 building..."; sleep 60; done &
             KEEP_ALIVE_PID=$!
             npm run build
             kill $KEEP_ALIVE_PID
 
-    deploy:
+  deploy:
     machine: true
     steps:
       - add_ssh_keys:
@@ -31,10 +31,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@34.229.12.242 <<\EOF
-              bash ~/ClothesShop/deploy.sh
-EOF
-
+            ssh -o StrictHostKeyChecking=no ubuntu@34.229.12.242 'bash ~/ClothesShop/deploy.sh'
 
 workflows:
   version: 2
