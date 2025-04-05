@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Build React App (Keep-Alive for CI timeout)
           command: |
-            while true; do echo "🌀 building..."; sleep 60; done &
+            while true; do echo "building..."; sleep 60; done &
             KEEP_ALIVE_PID=$!
             npm run build
             kill $KEEP_ALIVE_PID
