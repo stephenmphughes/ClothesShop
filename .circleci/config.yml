@@ -16,7 +16,7 @@ jobs:
   build:
     working_directory: ~/ClothesShop
     docker:
-      - image: circleci/node:20.0
+      - image: cimg/node:20.0
     steps:
       - checkout
       - setup_remote_docker
@@ -43,7 +43,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:20.0
+      - image: cimg/node:20.0
     steps:
       - run:
           name: Deploy to EC2
