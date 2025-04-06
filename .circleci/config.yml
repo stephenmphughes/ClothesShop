@@ -1,38 +1,5 @@
 version: 2.1
 
-jobs:
-  build:
-    docker:
-      - image: cimg/node:20.0
-    working_directory: ~/app
-    steps:
-      - checkout
-
-      - run: npm install
-
-      - run:
-          name: Run Tests
-          command: npm run test
-
-      - run:
-          name: Build React App (Keep-Alive for CI timeout)
-          command: |
-            while true; do echo "building..."; sleep 60; done &
-            KEEP_ALIVE_PID=$!
-            npm run build
-            kill $KEEP_ALIVE_PID
-
-  deploy:
-    machine: true
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:DPuRWg3POnV1IJuxaXWlso/EsVaon10J5l9CU5E3RJ0"
-      - run:
-          name: Deploy to EC2
-          command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@34.229.12.242 'bash ~/ClothesShop/deploy.sh'
-
 workflows:
   version: 2
   build_and_deploy:
@@ -44,3 +11,46 @@ workflows:
           filters:
             branches:
               only: main
+
+jobs:
+  build:
+    working_directory: ~/ClothesShop
+    docker:
+      - image: circleci/node:20.0
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+
+      - run:
+          name: Run Tests
+          command: npm run test
+
+      - run:
+          name: Docker Login
+          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      - run:
+          name: Build Docker Image
+          command: docker build -t $IMAGE_NAME:latest .
+
+      - run:
+          name: Push Docker Image
+          command: docker push $IMAGE_NAME
+
+  deploy:
+    docker:
+      - image: circleci/node:20.0
+    steps:
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+            "export SERVER='$SERVER'; \
+             export PRIVATE_KEY='$PRIVATE_KEY'; \
+             rm -rf ClothesShop/; \
+             git clone https://github.com/yourusername/ClothesShop.git; \
+             source ClothesShop/deploy.sh"
